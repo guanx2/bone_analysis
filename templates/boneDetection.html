@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <style>
+    .container .body .upload-tip {
+      font-size: 16px;
+      color: red;
+      font-weight: bold;
+      display: block;
+    }
+
+    .container .body .upload-tip.hide {
+      display: none;
+    }
+
+
+    /* Center the loader */
+    #loader {
+      position: relative;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 150px;
+      height: 150px;
+      margin: -120px 0 0 -120px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+      z-index: 9999;
+    }
+
+    #loadCon {
+      z-index: 1;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+    }
+
+    #background {
+      background-color: rgba(128,128,128,0.5);
+      left: 0;
+      top: 0;
+      height: 100%;
+      width:100%;
+      position: fixed;
+     
+    }
+
+    #process {
+      font-size: 16px;
+      color: white;
+      margin: 25px 0 0 -110px;
+      z-index: 9999;
+    }
+
+
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
+
+    @-webkit-keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0px;
+        opacity: 1
+      }
+    }
+
+    @keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0;
+        opacity: 1
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h3 class="text-muted">Atypical Femoral Fracture Detection (ALPHA)</h3>
+    </div>
+    <hr />
+    <div class="body">
+      <div id="loadCon">
+        <div id="background"></div>
+        <div id="loader"></div>
+        <p id="process">Processing, please wait...</p>
+
+      </div>
+      <form action="upload" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-lg-4">
+            <input type="file" name="file" id="file-uploader" accept=".jpg"><br /><br />
+            <input type="submit" value="Process" id="submit-btn">
+          </div>
+          <div class="col-lg-8">
+            <img id="img-holder"><br />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+  integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+<script>
+  -function () {
+    let $imgUploader = $('#file-uploader');
+    let $submitBtn = $('#submit-btn');
+    let $imgHolder = $('#img-holder');
+    let uplodaderFlag = false;
+
+    let handleUploaderChange = () => {
+      let file = $imgUploader[0].files[0];
+      let reader = new FileReader();
+      reader.onload = function (event) {
+        $imgHolder.attr({
+          src: event.target.result,
+          width: 500,
+          height: 500
+        });
+        uplodaderFlag = true;
+      }
+      reader.readAsDataURL(file);
+    };
+
+    let bindUploaderChange = (event) => {
+      $imgUploader[0].addEventListener('change', handleUploaderChange, false);
+    };
+    let bindBtnClick = () => {
+      $submitBtn[0].addEventListener('click', (event) => {
+        if (uplodaderFlag) {
+          document.getElementById("loadCon").style.display = "block";
+        } else {
+          event.preventDefault();
+          alert('Please upload a jpg image!');
+        }
+      }, false);
+    };
+    let init = () => {
+      document.getElementById("loadCon").style.display = "none";
+      bindUploaderChange();
+      bindBtnClick();
+    };
+    $(function () {
+      init();
+    });
+  }()
+</script>
+
+</html>
