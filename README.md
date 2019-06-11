@@ -1,7 +1,7 @@
 # bone_analysis
     This project is used to analize whether there is an Atypical Femur Fracture in the uploaded X-ray.
 ## configuration environment
-    Graphics card: Nvidia MX150
+    Graphics card: Nvidia GeForce MX150
     OS: Windows 10
     Driver: 
       CUDNN 7.6.0
