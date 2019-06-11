@@ -1,0 +1,12 @@
+item {
+  name: 'AFF'
+  id: 1
+}
+item {
+  name: 'FS'
+  id: 2
+}
+item {
+  name: 'PT'
+  id: 3
+}
